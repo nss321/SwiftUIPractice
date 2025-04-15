@@ -45,7 +45,7 @@ struct ImageView: View {
         ScrollView(.horizontal) {
             HStack {
                 ForEach((1...10), id: \.self) { _ in
-                    ImageCell()
+                    ImageCell(id: (1...250).randomElement()!)
                 }
             }
         }
@@ -60,8 +60,35 @@ struct HeaderView: View {
     
     var body: some View {
         Text(title)
-            .foregroundStyle(.black)
             .font(.title3)
+    }
+}
+
+struct ImageCell: View {
+    let id: Int
+    var url: URL {
+        URL(string: "https://picsum.photos/id/\(id)/100/140")!
+    }
+    var body: some View {
+        VStack {
+            AsyncImage(url: url) { data in
+                switch data {
+                case .empty:
+                    ProgressView()
+                        .frame(width: 100, height: 140)
+                case .success(let image):
+                    image
+                        .resizable()
+                case .failure(let error):
+                    Image(systemName: "star")
+                        .foregroundStyle(.yellow)
+                        .frame(width: 100, height: 140)
+                }
+                
+            }
+        }
+        .background(.purple)
+        .clipShape(.rect(cornerRadius: 20))
     }
 }
 
