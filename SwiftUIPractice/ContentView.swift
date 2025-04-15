@@ -25,6 +25,15 @@ struct ContentView: View {
                     Text("Image")
                         .padding()
                 }
+                
+                NavigationLink {
+                    WalletView()
+                } label: {
+                    Text("Wallet")
+                        .padding()
+                }
+                
+                
             }
         }
     }
